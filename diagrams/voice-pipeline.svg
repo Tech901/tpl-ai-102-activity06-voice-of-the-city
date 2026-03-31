@@ -1,0 +1,166 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 320">
+  <title>Voice of the City Pipeline</title>
+  <desc>A five-stage voice processing pipeline showing 311 call audio flowing through speech-to-text, speech translation, CLU intent classification, custom question answering, and text-to-speech with SSML, producing result.json and audio responses.</desc>
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0E0E0E"/>
+      <stop offset="100%" stop-color="#080808"/>
+    </linearGradient>
+    <linearGradient id="boxGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1E1E1E"/>
+      <stop offset="100%" stop-color="#141414"/>
+    </linearGradient>
+    <linearGradient id="amberBar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FFBF3B"/>
+      <stop offset="100%" stop-color="#E5A530"/>
+    </linearGradient>
+    <linearGradient id="blueBar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2D5A94"/>
+      <stop offset="100%" stop-color="#1E3F6B"/>
+    </linearGradient>
+    <linearGradient id="greenBar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8DC63F"/>
+      <stop offset="100%" stop-color="#6FA832"/>
+    </linearGradient>
+    <linearGradient id="purpleBar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#9B59B6"/>
+      <stop offset="100%" stop-color="#7D4792"/>
+    </linearGradient>
+    <linearGradient id="underlineGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FFBF3B"/>
+      <stop offset="100%" stop-color="#E5A530"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="4" stdDeviation="4" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+    <marker id="arrowAmber" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,3.5 L0,7 Z" fill="#FFBF3B"/>
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,3.5 L0,7 Z" fill="#2D5A94"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,3.5 L0,7 Z" fill="#8DC63F"/>
+    </marker>
+    <marker id="arrowPurple" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,3.5 L0,7 Z" fill="#9B59B6"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="960" height="320" fill="url(#bgGrad)" rx="6"/>
+
+  <!-- Title -->
+  <text x="480" y="32" text-anchor="middle" font-family="Syne, Calibri, sans-serif" font-size="18" font-weight="bold" fill="#FAFAFA">Voice of the City Pipeline</text>
+  <rect x="370" y="37" width="220" height="3" rx="1.5" fill="url(#underlineGrad)"/>
+
+  <!-- ==================== ROW 1 (y=65): Input → Step 1 → Step 2 → Step 3 ==================== -->
+
+  <!-- Node: 311 Call Audio (amber, input) -->
+  <g filter="url(#shadow)">
+    <rect x="20" y="65" width="130" height="80" rx="5" fill="url(#boxGrad)" stroke="#333" stroke-width="1"/>
+    <rect x="20" y="65" width="4" height="80" rx="2" fill="url(#amberBar)"/>
+  </g>
+  <text x="85" y="90" text-anchor="middle" font-family="Syne, Calibri, sans-serif" font-size="11" font-weight="bold" fill="#FFBF3B">311 Call Audio</text>
+  <text x="85" y="107" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#CCC">EN / ES / VI</text>
+  <text x="85" y="122" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="8" fill="#888">4 WAV voicemails</text>
+  <text x="85" y="135" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="8" fill="#888">audio_manifest.json</text>
+
+  <!-- Arrow Input → Step 1 -->
+  <line x1="155" y1="105" x2="193" y2="105" stroke="#FFBF3B" stroke-width="1.5" marker-end="url(#arrowAmber)"/>
+
+  <!-- Step 1: Transcribe (blue) -->
+  <g filter="url(#shadow)">
+    <rect x="200" y="65" width="155" height="80" rx="5" fill="url(#boxGrad)" stroke="#333" stroke-width="1"/>
+    <rect x="200" y="65" width="4" height="80" rx="2" fill="url(#blueBar)"/>
+  </g>
+  <text x="277" y="86" text-anchor="middle" font-family="Syne, Calibri, sans-serif" font-size="10" font-weight="bold" fill="#FFBF3B">Step 1</text>
+  <text x="277" y="101" text-anchor="middle" font-family="Syne, Calibri, sans-serif" font-size="11" font-weight="bold" fill="#2D5A94">Transcribe</text>
+  <text x="277" y="118" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#CCC">SpeechRecognizer</text>
+  <text x="277" y="135" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="8" fill="#4A90D9">Azure Speech-to-Text</text>
+
+  <!-- Arrow Step 1 → Step 2 -->
+  <line x1="360" y1="105" x2="393" y2="105" stroke="#2D5A94" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+  <text x="377" y="97" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="7" font-style="italic" fill="#888">text</text>
+
+  <!-- Step 2: Translate (purple) -->
+  <g filter="url(#shadow)">
+    <rect x="400" y="65" width="155" height="80" rx="5" fill="url(#boxGrad)" stroke="#333" stroke-width="1"/>
+    <rect x="400" y="65" width="4" height="80" rx="2" fill="url(#purpleBar)"/>
+  </g>
+  <text x="477" y="86" text-anchor="middle" font-family="Syne, Calibri, sans-serif" font-size="10" font-weight="bold" fill="#FFBF3B">Step 2</text>
+  <text x="477" y="101" text-anchor="middle" font-family="Syne, Calibri, sans-serif" font-size="11" font-weight="bold" fill="#9B59B6">Translate</text>
+  <text x="477" y="118" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#CCC">TranslationRecognizer</text>
+  <text x="477" y="135" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="8" fill="#9B7FC0">Azure Speech Translation</text>
+
+  <!-- Arrow Step 2 → Step 3 -->
+  <line x1="560" y1="105" x2="593" y2="105" stroke="#9B59B6" stroke-width="1.5" marker-end="url(#arrowPurple)"/>
+  <text x="577" y="97" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="7" font-style="italic" fill="#888">English</text>
+
+  <!-- Step 3: Classify (blue) -->
+  <g filter="url(#shadow)">
+    <rect x="600" y="65" width="155" height="80" rx="5" fill="url(#boxGrad)" stroke="#333" stroke-width="1"/>
+    <rect x="600" y="65" width="4" height="80" rx="2" fill="url(#blueBar)"/>
+  </g>
+  <text x="677" y="86" text-anchor="middle" font-family="Syne, Calibri, sans-serif" font-size="10" font-weight="bold" fill="#FFBF3B">Step 3</text>
+  <text x="677" y="101" text-anchor="middle" font-family="Syne, Calibri, sans-serif" font-size="11" font-weight="bold" fill="#2D5A94">Classify Intent</text>
+  <text x="677" y="118" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#CCC">ConversationAnalysis</text>
+  <text x="677" y="135" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="8" fill="#4A90D9">Azure CLU</text>
+
+  <!-- ==================== VERTICAL CONNECTOR (Row 1 → Row 2) ==================== -->
+  <path d="M 755 120 L 785 120 L 785 210 L 755 210" fill="none" stroke="#2D5A94" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+
+  <!-- ==================== ROW 2 (y=180): Step 4 → Step 5 → Output ==================== -->
+
+  <!-- Step 4: Answer (green) -->
+  <g filter="url(#shadow)">
+    <rect x="600" y="180" width="155" height="80" rx="5" fill="url(#boxGrad)" stroke="#333" stroke-width="1"/>
+    <rect x="600" y="180" width="4" height="80" rx="2" fill="url(#greenBar)"/>
+  </g>
+  <text x="677" y="201" text-anchor="middle" font-family="Syne, Calibri, sans-serif" font-size="10" font-weight="bold" fill="#FFBF3B">Step 4</text>
+  <text x="677" y="216" text-anchor="middle" font-family="Syne, Calibri, sans-serif" font-size="11" font-weight="bold" fill="#8DC63F">Answer FAQs</text>
+  <text x="677" y="233" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#CCC">QuestionAnsweringClient</text>
+  <text x="677" y="250" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="8" fill="#6FA832">Custom Question Answering</text>
+
+  <!-- Arrow Step 4 → Step 5 -->
+  <line x1="600" y1="220" x2="560" y2="220" stroke="#8DC63F" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+
+  <!-- Step 5: Respond (amber) -->
+  <g filter="url(#shadow)">
+    <rect x="400" y="180" width="155" height="80" rx="5" fill="url(#boxGrad)" stroke="#333" stroke-width="1"/>
+    <rect x="400" y="180" width="4" height="80" rx="2" fill="url(#amberBar)"/>
+  </g>
+  <text x="477" y="201" text-anchor="middle" font-family="Syne, Calibri, sans-serif" font-size="10" font-weight="bold" fill="#FFBF3B">Step 5</text>
+  <text x="477" y="216" text-anchor="middle" font-family="Syne, Calibri, sans-serif" font-size="11" font-weight="bold" fill="#FFBF3B">Respond (TTS)</text>
+  <text x="477" y="233" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#CCC">SpeechSynthesizer + SSML</text>
+  <text x="477" y="250" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="8" fill="#E5A530">Azure Text-to-Speech</text>
+
+  <!-- Arrow Step 5 → Output -->
+  <line x1="400" y1="220" x2="340" y2="220" stroke="#FFBF3B" stroke-width="1.5" marker-end="url(#arrowAmber)"/>
+
+  <!-- Output: result.json + Audio (green) -->
+  <g filter="url(#shadow)">
+    <rect x="170" y="180" width="165" height="80" rx="5" fill="url(#boxGrad)" stroke="#333" stroke-width="1"/>
+    <rect x="170" y="180" width="4" height="80" rx="2" fill="url(#greenBar)"/>
+  </g>
+  <text x="252" y="204" text-anchor="middle" font-family="Syne, Calibri, sans-serif" font-size="11" font-weight="bold" fill="#8DC63F">result.json</text>
+  <text x="252" y="221" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#CCC">Transcriptions + Intents</text>
+  <text x="252" y="234" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#CCC">+ QA + Translations</text>
+  <text x="252" y="250" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="8" fill="#888">+ WAV audio responses</text>
+
+  <!-- ==================== Legend ==================== -->
+  <text x="480" y="280" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="10" fill="#999">Transcribe → Translate → Classify → Answer → Respond</text>
+
+  <!-- Service color legend -->
+  <rect x="195" y="290" width="10" height="10" rx="2" fill="#2D5A94"/>
+  <text x="210" y="299" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#888">Azure Speech / CLU</text>
+  <rect x="345" y="290" width="10" height="10" rx="2" fill="#9B59B6"/>
+  <text x="360" y="299" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#888">Speech Translation</text>
+  <rect x="490" y="290" width="10" height="10" rx="2" fill="#8DC63F"/>
+  <text x="505" y="299" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#888">Custom QA</text>
+  <rect x="600" y="290" width="10" height="10" rx="2" fill="#FFBF3B"/>
+  <text x="615" y="299" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#888">Input / TTS Output</text>
+
+  <!-- Tech901 badge -->
+  <text x="940" y="302" text-anchor="end" font-family="Source Sans 3, Calibri, sans-serif" font-size="8" fill="#555">Tech901 AI-102</text>
+</svg>

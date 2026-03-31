@@ -1,0 +1,235 @@
+{
+  "description": "Reference: CLU training utterances for memphis-311-intents project",
+  "note": "Instructor uses these to train the CLU model. Students do NOT need to modify this file.",
+  "projectName": "memphis-311-intents",
+  "intents": [
+    "ReportIssue",
+    "CheckStatus",
+    "GetInformation"
+  ],
+  "entities": [
+    "Location",
+    "IssueType",
+    "CaseNumber"
+  ],
+  "utterances": [
+    {
+      "text": "I want to report a pothole on Main Street",
+      "intent": "ReportIssue",
+      "entities": [
+        {
+          "category": "IssueType",
+          "offset": 19,
+          "length": 7
+        },
+        {
+          "category": "Location",
+          "offset": 30,
+          "length": 11
+        }
+      ]
+    },
+    {
+      "text": "There's a broken streetlight near Beale Street",
+      "intent": "ReportIssue",
+      "entities": [
+        {
+          "category": "IssueType",
+          "offset": 10,
+          "length": 18
+        },
+        {
+          "category": "Location",
+          "offset": 34,
+          "length": 12
+        }
+      ]
+    },
+    {
+      "text": "The trash hasn't been picked up on Lamar Avenue",
+      "intent": "ReportIssue",
+      "entities": [
+        {
+          "category": "IssueType",
+          "offset": 4,
+          "length": 5
+        },
+        {
+          "category": "Location",
+          "offset": 35,
+          "length": 12
+        }
+      ]
+    },
+    {
+      "text": "I need to report graffiti downtown",
+      "intent": "ReportIssue",
+      "entities": [
+        {
+          "category": "IssueType",
+          "offset": 17,
+          "length": 8
+        },
+        {
+          "category": "Location",
+          "offset": 26,
+          "length": 8
+        }
+      ]
+    },
+    {
+      "text": "There's flooding on Summer Avenue",
+      "intent": "ReportIssue",
+      "entities": [
+        {
+          "category": "IssueType",
+          "offset": 8,
+          "length": 8
+        },
+        {
+          "category": "Location",
+          "offset": 20,
+          "length": 13
+        }
+      ]
+    },
+    {
+      "text": "A water main broke on Poplar Avenue",
+      "intent": "ReportIssue",
+      "entities": [
+        {
+          "category": "IssueType",
+          "offset": 2,
+          "length": 10
+        },
+        {
+          "category": "Location",
+          "offset": 22,
+          "length": 13
+        }
+      ]
+    },
+    {
+      "text": "Sidewalk is cracked on Union Avenue near the hospital",
+      "intent": "ReportIssue",
+      "entities": [
+        {
+          "category": "IssueType",
+          "offset": 0,
+          "length": 8
+        },
+        {
+          "category": "Location",
+          "offset": 23,
+          "length": 12
+        }
+      ]
+    },
+    {
+      "text": "What's the status of my request number 311-2024-12345",
+      "intent": "CheckStatus",
+      "entities": [
+        {
+          "category": "CaseNumber",
+          "offset": 39,
+          "length": 14
+        }
+      ]
+    },
+    {
+      "text": "Can you check on case 311-2024-78542",
+      "intent": "CheckStatus",
+      "entities": [
+        {
+          "category": "CaseNumber",
+          "offset": 22,
+          "length": 14
+        }
+      ]
+    },
+    {
+      "text": "I'd like an update on my service request",
+      "intent": "CheckStatus",
+      "entities": []
+    },
+    {
+      "text": "When will my pothole be fixed, case 311-2024-99001",
+      "intent": "CheckStatus",
+      "entities": [
+        {
+          "category": "IssueType",
+          "offset": 13,
+          "length": 7
+        },
+        {
+          "category": "CaseNumber",
+          "offset": 36,
+          "length": 14
+        }
+      ]
+    },
+    {
+      "text": "Has anyone been assigned to my ticket yet",
+      "intent": "CheckStatus",
+      "entities": []
+    },
+    {
+      "text": "I submitted a complaint last week about trash",
+      "intent": "CheckStatus",
+      "entities": [
+        {
+          "category": "IssueType",
+          "offset": 40,
+          "length": 5
+        }
+      ]
+    },
+    {
+      "text": "What are the hours for the 311 service",
+      "intent": "GetInformation",
+      "entities": []
+    },
+    {
+      "text": "When is the next recycling pickup day",
+      "intent": "GetInformation",
+      "entities": [
+        {
+          "category": "IssueType",
+          "offset": 17,
+          "length": 9
+        }
+      ]
+    },
+    {
+      "text": "How do I file a complaint online",
+      "intent": "GetInformation",
+      "entities": []
+    },
+    {
+      "text": "What's the phone number for animal control",
+      "intent": "GetInformation",
+      "entities": []
+    },
+    {
+      "text": "Where is the nearest community center",
+      "intent": "GetInformation",
+      "entities": []
+    },
+    {
+      "text": "Is the city office open on holidays",
+      "intent": "GetInformation",
+      "entities": []
+    },
+    {
+      "text": "What documents do I need to report illegal dumping",
+      "intent": "GetInformation",
+      "entities": [
+        {
+          "category": "IssueType",
+          "offset": 35,
+          "length": 15
+        }
+      ]
+    }
+  ]
+}
