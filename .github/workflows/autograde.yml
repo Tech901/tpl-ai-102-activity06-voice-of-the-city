@@ -1,0 +1,349 @@
+name: Autograding
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  AZURE_SPEECH_KEY: ${{ secrets.AZURE_SPEECH_KEY }}
+  AZURE_SPEECH_REGION: ${{ secrets.AZURE_SPEECH_REGION }}
+  AZURE_AI_LANGUAGE_ENDPOINT: ${{ secrets.AZURE_AI_LANGUAGE_ENDPOINT }}
+  AZURE_AI_LANGUAGE_KEY: ${{ secrets.AZURE_AI_LANGUAGE_KEY }}
+  CLU_PROJECT_NAME: ${{ secrets.CLU_PROJECT_NAME }}
+  CLU_DEPLOYMENT_NAME: ${{ secrets.CLU_DEPLOYMENT_NAME }}
+  QA_PROJECT_NAME: ${{ secrets.QA_PROJECT_NAME }}
+  QA_DEPLOYMENT_NAME: ${{ secrets.QA_DEPLOYMENT_NAME }}
+  STUDENT_CORPUS_SEED: ${{ github.actor }}
+
+jobs:
+  grade:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Write .env file for autograder
+        shell: bash
+        run: |
+          {
+            echo "AZURE_SPEECH_KEY=$AZURE_SPEECH_KEY"
+            echo "AZURE_SPEECH_REGION=$AZURE_SPEECH_REGION"
+            echo "AZURE_AI_LANGUAGE_ENDPOINT=$AZURE_AI_LANGUAGE_ENDPOINT"
+            echo "AZURE_AI_LANGUAGE_KEY=$AZURE_AI_LANGUAGE_KEY"
+            echo "CLU_PROJECT_NAME=$CLU_PROJECT_NAME"
+            echo "CLU_DEPLOYMENT_NAME=$CLU_DEPLOYMENT_NAME"
+            echo "QA_PROJECT_NAME=$QA_PROJECT_NAME"
+            echo "QA_DEPLOYMENT_NAME=$QA_DEPLOYMENT_NAME"
+            echo "STUDENT_CORPUS_SEED=$STUDENT_CORPUS_SEED"
+          } > .env
+
+      - name: Pre-run: python data/generate_audio.py
+        run: python data/generate_audio.py
+        continue-on-error: true
+
+      - name: Run student code
+        run: python -m app.main
+        continue-on-error: true
+
+      - name: Clone autograder
+        uses: actions/checkout@v4
+        with:
+          repository: Tech901/ai102-autograder-tests
+          token: ${{ secrets.AUTOGRADER_PAT }}
+          path: .autograder
+
+      # --- 28 tests, 100 points ---
+      - name: "TestCanary::test_transcription_not_empty"
+        id: test1
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestCanary::test_transcription_not_empty"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestCanary::test_transcription_not_empty -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "TestCanary::test_translation_not_empty"
+        id: test2
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestCanary::test_translation_not_empty"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestCanary::test_translation_not_empty -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "TestCanary::test_clu_returns_valid_intent"
+        id: test3
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestCanary::test_clu_returns_valid_intent"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestCanary::test_clu_returns_valid_intent -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "TestCanary::test_qa_has_real_answer"
+        id: test4
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestCanary::test_qa_has_real_answer"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestCanary::test_qa_has_real_answer -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "TestCanary::test_ssml_has_prosody"
+        id: test5
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestCanary::test_ssml_has_prosody"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestCanary::test_ssml_has_prosody -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "TestContract::test_task_is_voice_of_the_city"
+        id: test6
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestContract::test_task_is_voice_of_the_city"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestContract::test_task_is_voice_of_the_city -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "TestContract::test_status_not_error"
+        id: test7
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestContract::test_status_not_error"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestContract::test_status_not_error -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "TestContract::test_all_output_sections_present"
+        id: test8
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestContract::test_all_output_sections_present"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestContract::test_all_output_sections_present -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "TestContract::test_metadata_has_summary"
+        id: test9
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestContract::test_metadata_has_summary"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestContract::test_metadata_has_summary -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "TestContract::test_pipeline_steps_count"
+        id: test10
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestContract::test_pipeline_steps_count"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestContract::test_pipeline_steps_count -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "TestLiveSpeechToText::test_transcribe_english_audio"
+        id: test11
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestLiveSpeechToText::test_transcribe_english_audio"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestLiveSpeechToText::test_transcribe_english_audio -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "TestLiveSpeechToText::test_transcribe_returns_language"
+        id: test12
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestLiveSpeechToText::test_transcribe_returns_language"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestLiveSpeechToText::test_transcribe_returns_language -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "TestLiveTranslation::test_translate_spanish_audio"
+        id: test13
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestLiveTranslation::test_translate_spanish_audio"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestLiveTranslation::test_translate_spanish_audio -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "TestLiveTranslation::test_translate_returns_source_language"
+        id: test14
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestLiveTranslation::test_translate_returns_source_language"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestLiveTranslation::test_translate_returns_source_language -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "TestCLU::test_classify_report_intent"
+        id: test15
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestCLU::test_classify_report_intent"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestCLU::test_classify_report_intent -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "TestCLU::test_classify_status_intent"
+        id: test16
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestCLU::test_classify_status_intent"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestCLU::test_classify_status_intent -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "TestCLU::test_extracts_location_entity"
+        id: test17
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestCLU::test_extracts_location_entity"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestCLU::test_extracts_location_entity -v --tb=short"
+          timeout: "5"
+          max-score: "3"
+
+      - name: "TestCLU::test_confidence_in_range"
+        id: test18
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestCLU::test_confidence_in_range"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestCLU::test_confidence_in_range -v --tb=short"
+          timeout: "5"
+          max-score: "3"
+
+      - name: "TestCLU::test_clu_method_when_configured"
+        id: test19
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestCLU::test_clu_method_when_configured"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestCLU::test_clu_method_when_configured -v --tb=short"
+          timeout: "5"
+          max-score: "3"
+
+      - name: "TestQA::test_answers_different_question"
+        id: test20
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestQA::test_answers_different_question"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestQA::test_answers_different_question -v --tb=short"
+          timeout: "5"
+          max-score: "3"
+
+      - name: "TestQA::test_handles_unanswerable"
+        id: test21
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestQA::test_handles_unanswerable"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestQA::test_handles_unanswerable -v --tb=short"
+          timeout: "5"
+          max-score: "3"
+
+      - name: "TestQA::test_qa_returns_source_document"
+        id: test22
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestQA::test_qa_returns_source_document"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestQA::test_qa_returns_source_document -v --tb=short"
+          timeout: "5"
+          max-score: "3"
+
+      - name: "TestLiveTTS::test_synthesize_plain_text"
+        id: test23
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestLiveTTS::test_synthesize_plain_text"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestLiveTTS::test_synthesize_plain_text -v --tb=short"
+          timeout: "5"
+          max-score: "3"
+
+      - name: "TestLiveTTS::test_synthesize_ssml"
+        id: test24
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestLiveTTS::test_synthesize_ssml"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestLiveTTS::test_synthesize_ssml -v --tb=short"
+          timeout: "5"
+          max-score: "3"
+
+      - name: "TestSSMLValidation::test_ssml_is_valid_xml"
+        id: test25
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestSSMLValidation::test_ssml_is_valid_xml"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestSSMLValidation::test_ssml_is_valid_xml -v --tb=short"
+          timeout: "5"
+          max-score: "3"
+
+      - name: "TestSSMLValidation::test_ssml_has_required_elements"
+        id: test26
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestSSMLValidation::test_ssml_has_required_elements"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestSSMLValidation::test_ssml_has_required_elements -v --tb=short"
+          timeout: "5"
+          max-score: "3"
+
+      - name: "TestSafety::test_no_hardcoded_keys"
+        id: test27
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestSafety::test_no_hardcoded_keys"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestSafety::test_no_hardcoded_keys -v --tb=short"
+          timeout: "5"
+          max-score: "3"
+
+      - name: "TestSafety::test_lazy_init_pattern"
+        id: test28
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestSafety::test_lazy_init_pattern"
+          command: "python -m pytest .autograder/activity06-voice-of-the-city/test_hidden.py::TestSafety::test_lazy_init_pattern -v --tb=short"
+          timeout: "5"
+          max-score: "3"
+
+      - name: Autograding Reporter
+        uses: classroom-resources/autograding-grading-reporter@v1
+        continue-on-error: true
+        env:
+          TEST1_RESULTS: "${{ steps.test1.outputs.result }}"
+          TEST2_RESULTS: "${{ steps.test2.outputs.result }}"
+          TEST3_RESULTS: "${{ steps.test3.outputs.result }}"
+          TEST4_RESULTS: "${{ steps.test4.outputs.result }}"
+          TEST5_RESULTS: "${{ steps.test5.outputs.result }}"
+          TEST6_RESULTS: "${{ steps.test6.outputs.result }}"
+          TEST7_RESULTS: "${{ steps.test7.outputs.result }}"
+          TEST8_RESULTS: "${{ steps.test8.outputs.result }}"
+          TEST9_RESULTS: "${{ steps.test9.outputs.result }}"
+          TEST10_RESULTS: "${{ steps.test10.outputs.result }}"
+          TEST11_RESULTS: "${{ steps.test11.outputs.result }}"
+          TEST12_RESULTS: "${{ steps.test12.outputs.result }}"
+          TEST13_RESULTS: "${{ steps.test13.outputs.result }}"
+          TEST14_RESULTS: "${{ steps.test14.outputs.result }}"
+          TEST15_RESULTS: "${{ steps.test15.outputs.result }}"
+          TEST16_RESULTS: "${{ steps.test16.outputs.result }}"
+          TEST17_RESULTS: "${{ steps.test17.outputs.result }}"
+          TEST18_RESULTS: "${{ steps.test18.outputs.result }}"
+          TEST19_RESULTS: "${{ steps.test19.outputs.result }}"
+          TEST20_RESULTS: "${{ steps.test20.outputs.result }}"
+          TEST21_RESULTS: "${{ steps.test21.outputs.result }}"
+          TEST22_RESULTS: "${{ steps.test22.outputs.result }}"
+          TEST23_RESULTS: "${{ steps.test23.outputs.result }}"
+          TEST24_RESULTS: "${{ steps.test24.outputs.result }}"
+          TEST25_RESULTS: "${{ steps.test25.outputs.result }}"
+          TEST26_RESULTS: "${{ steps.test26.outputs.result }}"
+          TEST27_RESULTS: "${{ steps.test27.outputs.result }}"
+          TEST28_RESULTS: "${{ steps.test28.outputs.result }}"
+        with:
+          runners: test1,test2,test3,test4,test5,test6,test7,test8,test9,test10,test11,test12,test13,test14,test15,test16,test17,test18,test19,test20,test21,test22,test23,test24,test25,test26,test27,test28

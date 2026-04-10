@@ -1,0 +1,42 @@
+{
+  "description": "Audio file manifest for Activity 6 — Voice of the City",
+  "note": "Run 'python data/generate_audio.py' to create these WAV files",
+  "files": [
+    {
+      "filename": "pothole_report_en.wav",
+      "language": "en-US",
+      "voice": "en-US-GuyNeural",
+      "description": "English pothole report on Poplar Avenue",
+      "text": "Hi, I'd like to report a large pothole on Poplar Avenue near the intersection with Highland Street. It's been there for about two weeks and it's getting worse. My car hit it yesterday and I'm worried about damage. Can someone please come fix it? My name is James and my phone number is 901-555-0147.",
+      "expected_intent": "ReportIssue",
+      "expected_entities": ["Location"]
+    },
+    {
+      "filename": "trash_complaint_es.wav",
+      "language": "es-MX",
+      "voice": "es-MX-JorgeNeural",
+      "description": "Spanish trash collection complaint",
+      "text": "Hola, llamo para reportar que no han recogido la basura en mi calle desde hace una semana. Vivo en la calle Lamar Avenue en el sur de Memphis. Necesitamos que vengan a recoger la basura lo antes posible. Gracias.",
+      "expected_intent": "ReportIssue",
+      "expected_entities": ["Location"]
+    },
+    {
+      "filename": "status_check_en.wav",
+      "language": "en-US",
+      "voice": "en-US-JennyNeural",
+      "description": "English status check on existing case",
+      "text": "Hello, I'm calling to check on the status of my service request. My case number is 311-2024-78542. I reported a broken streetlight on Beale Street about a week ago and I haven't heard back yet. Can you tell me when it will be fixed?",
+      "expected_intent": "CheckStatus",
+      "expected_entities": ["CaseNumber", "Location"]
+    },
+    {
+      "filename": "water_issue_vi.wav",
+      "language": "vi-VN",
+      "voice": "vi-VN-HoaiMyNeural",
+      "description": "Vietnamese water issue report",
+      "text": "Xin ch\u00e0o, t\u00f4i mu\u1ed1n b\u00e1o c\u00e1o m\u1ed9t v\u1ea5n \u0111\u1ec1 v\u1ec1 n\u01b0\u1edbc. C\u00f3 n\u01b0\u1edbc ch\u1ea3y tr\u00ean \u0111\u01b0\u1eddng Summer Avenue g\u1ea7n nh\u00e0 t\u00f4i. N\u01b0\u1edbc \u0111\u00e3 ch\u1ea3y t\u1eeb hai ng\u00e0y tr\u01b0\u1edbc v\u00e0 ng\u00e0y c\u00e0ng t\u1ec7 h\u01a1n. Xin h\u00e3y g\u1eedi ng\u01b0\u1eddi \u0111\u1ebfn ki\u1ec3m tra. C\u1ea3m \u01a1n.",
+      "expected_intent": "ReportIssue",
+      "expected_entities": ["Location"]
+    }
+  ]
+}
